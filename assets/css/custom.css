@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+
+
+
+/**SCREEN OPTIONS**/
+.metabox-prefs {
+    display: none;
+}
+
+.mycontainer{
+    margin: 0 auto;
+    padding: 0;
+    /*width: 700px;*/
+}
+.data-container{
+    padding: 30px;
+}
+.token-form .title{
+    width: 100%;
+}
+.setting-section{
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    margin-top: 9px;
+    padding: 10px;
+    
+}
+.setting-section label{
+    width: 168px;
+    float: left;
+}
+.span-desc {
+    width: 600px;
+    display: inline-flex;
+    margin-left: 20px;
+}
+.btn_color {
+    width: 25px;
+}
+.submits, .btn-preview {
+
+    background-color: #1491e1;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 2px;
+
+}
+
+.shortcode-container{
+    margin: 30px;
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    padding: 10px;
+}
+
+ 
+ 
