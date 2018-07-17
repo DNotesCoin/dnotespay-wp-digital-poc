@@ -62,7 +62,7 @@ class QGSettings {
                 ));
             }
             
-            $url = admin_url('admin.php?page=dnotes_settings');
+            $url = admin_url('admin.php?page=qg_settings');
             ?>
             <script>document.location.href = "<?php echo $url; ?>"</script>
 
