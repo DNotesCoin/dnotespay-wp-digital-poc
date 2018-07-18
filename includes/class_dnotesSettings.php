@@ -12,7 +12,7 @@ class QGSettings {
     }
 
     public function addnew_settingmenu() {
-        add_submenu_page('dnotes-token-new', 'DNotes Settings', 'DNotes Settings', 'manage_options', 'qg_settings', array($this, 'settingsmenudata'));
+        add_submenu_page('dnotes-token-new', 'DNotes Settings', 'DNotes Settings', 'manage_options', 'dnotes_settings', array($this, 'settingsmenudata'));
     }
 
     public function settingsmenudata() {
@@ -62,7 +62,7 @@ class QGSettings {
                 ));
             }
             
-            $url = admin_url('admin.php?page=qg_settings');
+            $url = admin_url('admin.php?page=dnotes_settings');
             ?>
             <script>document.location.href = "<?php echo $url; ?>"</script>
 
@@ -79,7 +79,7 @@ class QGSettings {
                         "{$wpdb->prefix}dnotes_address", ['id' => $addrss->id], ['%d']
                 );
             endforeach;
-            $url = admin_url('admin.php?page=qg_settings');
+            $url = admin_url('admin.php?page=dnotes_settings');
             ?>
             <script>document.location.href = "<?php echo $url; ?>"</script>
 
