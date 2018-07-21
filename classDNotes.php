@@ -44,7 +44,6 @@ class QuriGold{
     
     public function add_extrafiles(){
         wp_enqueue_style( 'customcss', plugins_url( 'assets/css/custom.css', __FILE__ ), array());
-        wp_enqueue_script( 'jqueryjs', plugins_url( 'assets/js/jquery.min.js', __FILE__ ), array());
         wp_enqueue_script( 'customjs', plugins_url( 'assets/js/custom.js', __FILE__ ), array());
         wp_localize_script( 'customjs', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
      }
@@ -57,7 +56,9 @@ class QuriGold{
         
         $query_table = $wpdb->get_row(" SELECT * FROM $tablename where id='".$arguments['id']."' ");
         $b_text = $query_table->b_text;
-        $b_color = $query_table->b_color; 
+        $b_color = $query_table->b_color;
+        $b_border_color = $query_table->b_border_color;
+        $b_horver_color = $query_table->b_horver_color; 
         
         $address_table = $wpdb->prefix . 'dnotes_address';
         $address_query = $wpdb->get_row(" SELECT * FROM $address_table ORDER BY RAND() LIMIT 1 ");
@@ -73,56 +74,39 @@ class QuriGold{
         $confirmations_num = $query_table->confirmation;
         $payment_description =  $query_table->description;
         $post_file_url = plugins_url( 'dnotes_payment.php', __FILE__ );
-
-        echo '<form id="DnotesForm" method="post" action="'.$post_file_url.'" target="DnotesWindow"><input type="hidden" id="payment_description" name="payment_description" value="'.$payment_description.'" /><input type="hidden" id="dnotes_address" name="dnotes_address" value="'.$dnotes_address.'" /><input type="hidden" id="usd_notes" name="usd_notes" value="'.$usd_notes.'" /><input type="hidden" id="amount_price" name="amount_price" value="'.$amount_price.'" /><input type="hidden" id="tolerance" name="tolerance" value="'.$tolerance.'" /><input type="hidden" id="download_link" name="download_link" value="'.$download_link.'" /><input type="hidden" id="confirmations_num" name="confirmations_num" value="'.$confirmations_num.'" /><input type="button" id="dnotes_buttonvalue" class="buy-button" style="background: '.$b_color.';" value="'.$b_text.'" onclick="PaymentpageShow()" data-href="'.$arguments['id'].'"></form>';
         $GLOBALS['short_codeid_value'] = $arguments['id'];
-		?>
-        <style>
-            #dnotes_buttonvalue {
-                -moz-border-radius:5px;
-                -webkit-border-radius:5px;
-                border-radius:5px;
-                border:1px solid #337bc4;
-                display:inline-block;
-                cursor:pointer;
-                color:#ffffff;
-                font-family:Arial;
-                font-size:17px;
-                font-weight:bold;
-                padding:12px 44px;
-                text-decoration:none;
-            }
-        </style>
-        <script>
-            function PaymentpageShow() {
-                // document.getElementById("dnotes_buttonvalue").style.display = "none";
-                // document.getElementById("dnotes-page").style.display = "block";
-                // var mapForm = document.createElement("form");
-                // mapForm.target = "Dnotespay";
-                // mapForm.method = "POST"; // or "post" if appropriate
-                // mapForm.action = "dnotes_payment.php";
 
-                // var mapInput = document.createElement("input");
-                // mapInput.type = "text";
-                // mapInput.name = "addrs";
-                // mapInput.value = data;
-                // mapForm.appendChild(mapInput);
+        $return_value = '<form id="DnotesForm" method="post" action="'.$post_file_url.'" target="DnotesWindow"><input type="hidden" id="payment_description" name="payment_description" value="'.$payment_description.'" /><input type="hidden" id="dnotes_address" name="dnotes_address" value="'.$dnotes_address.'" /><input type="hidden" id="usd_notes" name="usd_notes" value="'.$usd_notes.'" /><input type="hidden" id="amount_price" name="amount_price" value="'.$amount_price.'" /><input type="hidden" id="tolerance" name="tolerance" value="'.$tolerance.'" /><input type="hidden" id="download_link" name="download_link" value="'.$download_link.'" /><input type="hidden" id="confirmations_num" name="confirmations_num" value="'.$confirmations_num.'" /><input type="button" id="dnotes_buttonvalue" class="buy-button" value="'.$b_text.'" onclick="PaymentpageShow()" data-href="'.$arguments['id'].'"></form>';
+        $return_value .= '<style>
+                            #dnotes_buttonvalue {
+                                -moz-border-radius:5px;
+                                -webkit-border-radius:5px;
+                                border-radius:5px;
+                                display:inline-block;
+                                cursor:pointer;
+                                color:#ffffff;
+                                font-family:Arial;
+                                font-size:17px;
+                                font-weight:bold;
+                                margin-left: 50px;
+                                background: '.$b_color.';
+                                border: 1px solid '.$b_border_color.';
+                                padding:12px 44px;
+                                text-decoration:none;
+                            }
+                            #dnotes_buttonvalue:hover {
+                                background: '.$b_horver_color.';
+                            }
+                        </style>';
+        $return_value .= "<script>
+                            function PaymentpageShow() {
+                                window.open('', 'DnotesWindow', 'toolbar=yes,scrollbars=yes,resizable=yes,top=350,left=500,width=650,height=600');
+                                document.getElementById('DnotesForm').submit();
+                            }
+                        </script>";
+        return $return_value; 
+        //echo '<form id="DnotesForm" method="post" action="'.$post_file_url.'" target="DnotesWindow"><input type="hidden" id="payment_description" name="payment_description" value="'.$payment_description.'" /><input type="hidden" id="dnotes_address" name="dnotes_address" value="'.$dnotes_address.'" /><input type="hidden" id="usd_notes" name="usd_notes" value="'.$usd_notes.'" /><input type="hidden" id="amount_price" name="amount_price" value="'.$amount_price.'" /><input type="hidden" id="tolerance" name="tolerance" value="'.$tolerance.'" /><input type="hidden" id="download_link" name="download_link" value="'.$download_link.'" /><input type="hidden" id="confirmations_num" name="confirmations_num" value="'.$confirmations_num.'" /><input type="button" id="dnotes_buttonvalue" class="buy-button" value="'.$b_text.'" onclick="PaymentpageShow()" data-href="'.$arguments['id'].'"></form>';
 
-                // document.body.appendChild(mapForm);
-
-                // map = window.open("", "Dnotespay", "status=0,title=0,height=600,width=650,scrollbars=1");
-
-                // if (map) {
-                //     mapForm.submit();
-                // } else {
-                //     alert('You must allow popups for this map to work.');
-                // }
-                window.open('', 'DnotesWindow', 'toolbar=yes,scrollbars=yes,resizable=yes,top=350,left=500,width=650,height=600');
-                document.getElementById('DnotesForm').submit();
-                //window.open("dnotes_payment.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=350,left=500,width=650,height=600");
-            }
-        </script>
-		<?php
     }  
     
 }

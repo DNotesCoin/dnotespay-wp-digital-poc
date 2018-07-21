@@ -166,7 +166,7 @@ class QGLIst extends WP_List_Table {
     protected function column_title($item) {
 
         $actions = array(
-            'edit' => sprintf('<a href="?page=add_newqg&action=edit&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+            'edit' => sprintf('<a href="?page=add_newtoken&action=edit&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
             'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $_REQUEST['page'], $item['id'], __('Delete', 'cltd_example')),
         );
         return sprintf('%s %s', $item['title'], $this->row_actions($actions)

@@ -11,7 +11,7 @@ class Addnew_token {
     }
 
     public function addnew_menu() {
-        add_submenu_page('dnotes-token-new', 'Add new', 'Add new', 'manage_options', 'add_newqg', array($this, 'add_newdata'));
+        add_submenu_page('dnotes-token-new', 'Add new', 'Add new', 'manage_options', 'add_newtoken', array($this, 'add_newdata'));
     }
 
     /*
@@ -90,11 +90,21 @@ class Addnew_token {
                                 </p>
                                 <p>
                                     <label>Button Color</label>
-                                    <input type="color" name="btn_color" class="btn_color"  value="<?php echo $myquery->b_color; ?>">
-                                    <!--<span class="span-desc">Select color for Button here.</span>-->
+                                    <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="<?php echo $myquery->b_color; ?>" id="btn_hexcolor" name="btn_hexcolor" placeholder="#ffffff" onchange="buttoncolorSync(this.value , 1)">
+                                    <input type="color" name="btn_color" id="btn_color" class="btn_color"  value="<?php echo $myquery->b_color; ?>" onchange="buttoncolorSync(this.value , 2)">
+                                </p>
+                                <p>
+                                    <label>Button Border Color</label>
+                                    <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="<?php echo $myquery->b_border_color; ?>" id="btn_border_color" name="btn_border_color" placeholder="#ffffff" onchange="buttoncolorSync(this.value , 3)">
+                                    <input type="color" name="btn_border_hexcolor" id="btn_border_hexcolor" class="btn_color"  value="<?php echo $myquery->b_border_color; ?>" onchange="buttoncolorSync(this.value , 4)">
+                                </p>
+                                <p>
+                                    <label>Mouse Over State Color</label>
+                                    <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="<?php echo $myquery->b_horver_color; ?>" id="btn_horver_color" name="btn_horver_color" placeholder="#ffffff" onchange="buttoncolorSync(this.value , 5)">
+                                    <input type="color" name="btn_horver_hexcolor" id="btn_horver_hexcolor" class="btn_color"  value="<?php echo $myquery->b_horver_color; ?>" onchange="buttoncolorSync(this.value , 6)">
                                 </p>
 
-                                <p><!--<input type="button" name="btn-preview" class="btn-preview" value="Preview">--><input type="submit" name="update" class="submits" value="Update"></p>
+                                <p><input type="submit" name="update" class="submits" value="Update"></p>
 
                             </div>
                         </form>
@@ -146,11 +156,21 @@ class Addnew_token {
                             </p>
                             <p>
                                 <label>Button Color</label>
-                                <input type="color" name="btn_color" class="btn_color">
-                                <!--<span class="span-desc">Select color for Button here.</span>-->
+                                <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" id="btn_color" name="btn_color" placeholder="#ffffff" value="#bada55" onchange="buttoncolorSync(this.value , 1)">
+                                <input type="color" name="btn_hexcolor" id="btn_hexcolor" class="btn_color" value="#bada55" onchange="buttoncolorSync(this.value , 2)">
+                            </p>
+                            <p>
+                                <label>Button Border Color</label>
+                                <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" id="btn_border_color" name="btn_border_color" placeholder="#ffffff" value="#bada55" onchange="buttoncolorSync(this.value , 3)">
+                                <input type="color" name="btn_border_hexcolor" id="btn_border_hexcolor" class="btn_color" value="#bada55" onchange="buttoncolorSync(this.value , 4)">
+                            </p>
+                            <p>
+                                <label>Mouse Over State Color</label>
+                                <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" id="btn_horver_color" name="btn_horver_color" placeholder="#ffffff" value="#bada55" onchange="buttoncolorSync(this.value , 5)">
+                                <input type="color" name="btn_horver_hexcolor" id="btn_horver_hexcolor" class="btn_color" value="#bada55" onchange="buttoncolorSync(this.value , 6)">
                             </p>
 
-                            <p><!--<input type="button" name="btn-preview" class="btn-preview" value="Preview">--><input type="submit" name="submit" class="submits" value="Publish"></p>
+                            <p><input type="submit" name="submit" class="submits" value="Publish"></p>
 
                         </div>
                     </form>
@@ -159,6 +179,17 @@ class Addnew_token {
             </div>
         </div>
 
+        <script>
+            function buttoncolorSync( indexvalue , checkid) {
+                if( checkid == 1)   document.getElementById("btn_hexcolor").value = indexvalue;
+                if( checkid == 2)   document.getElementById("btn_color").value = indexvalue;
+                if( checkid == 3)   document.getElementById("btn_border_hexcolor").value = indexvalue;
+                if( checkid == 4)   document.getElementById("btn_border_color").value = indexvalue;
+                if( checkid == 5)   document.getElementById("btn_horver_hexcolor").value = indexvalue;
+                if( checkid == 6)   document.getElementById("btn_horver_color").value = indexvalue;
+            }
+        </script>
+        
         <?php
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
@@ -173,12 +204,14 @@ class Addnew_token {
         $description = $_POST['description'];
         $btn_text = $_POST['btn_text'];
         $btn_color = $_POST['btn_color'];
+        $btn_border_color = $_POST['btn_border_color'];
+        $btn_horver_color = $_POST['btn_horver_color'];
 
         /**
          * 
          * INSERT TOKEN DATA
          * * */
-        if (isset($_POST['submit']) && isset($title) && isset($currency) && isset($price) && isset($tolerance) && isset($product) && isset($confirmation) && isset($description) && isset($btn_color) && isset($btn_text)) {
+        if (isset($_POST['submit']) && isset($title) && isset($currency) && isset($price) && isset($tolerance) && isset($product) && isset($confirmation) && isset($description) && isset($btn_text)) {
             $result_array = array(
                 'title' => $title,
                 'currency' => $currency,
@@ -188,7 +221,9 @@ class Addnew_token {
                 'confir' => $confirmation,
                 'desc' => $description,
                 'btn-text' => $btn_text,
-                'btn-color' => $btn_color
+                'btn-color' => $btn_color,
+                'btn-border-color' => $btn_border_color,
+                'btn-horver-color' => $btn_horver_color
             );
 
 
@@ -204,6 +239,8 @@ class Addnew_token {
               description varchar(255) NOT NULL,
               b_text varchar(100) NOT NULL,
               b_color varchar(10) NOT NULL,
+              b_border_color varchar(10) NOT NULL,
+              b_horver_color varchar(10) NOT NULL,
               published_date date NOT NULL,
               PRIMARY KEY  (id)
             ) $charset_collate;";
@@ -222,6 +259,8 @@ class Addnew_token {
                 'description' => $description,
                 'b_text' => $btn_text,
                 'b_color' => $btn_color,
+                'b_border_color' => $btn_border_color,
+                'b_horver_color' => $btn_horver_color,
                 'published_date' => date("Y-m-d h:i:s")
                     )
             );
@@ -250,15 +289,15 @@ class Addnew_token {
                 'description' => $description,
                 'b_text' => $btn_text,
                 'b_color' => $btn_color,
+                'b_border_color' => $btn_border_color,
+                'b_hover_color' => $btn_horver_color,
                     ), array('id' => $item_id)
             );
             $url = admin_url('admin.php?page=dnotes-token-new');
             ?>
             <script>document.location.href = "<?php echo $url; ?>"</script>
 
-            <?php
-//                     wp_safe_redirect($url);
-//                     exit;
+        <?php
         endif;
         ob_flush();
         ?>

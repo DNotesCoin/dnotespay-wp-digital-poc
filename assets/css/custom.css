@@ -39,7 +39,9 @@ and open the template in the editor.
     margin-left: 20px;
 }
 .btn_color {
-    width: 25px;
+    width: 40px;
+    margin-left: 20px;
+    vertical-align: bottom;
 }
 .submits, .btn-preview {
 

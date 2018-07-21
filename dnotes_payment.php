@@ -1,4 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <?php
         
         $usd_notes = $_POST['usd_notes'];
@@ -453,7 +452,7 @@
                 </div>
             </div>
 
-
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script>
                 var check_flag = 0;
                 document.getElementById("copy_address").addEventListener("click", function() {
