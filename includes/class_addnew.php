@@ -51,7 +51,7 @@ class Addnew_token {
                                 <h4>Settings</h4>
                                 <p>
                                     <label>USD OR DNotes</label>
-                                    <select name="currency" class="qgcurrency" required>
+                                    <select onchange="currencyChange(this.value)" name="currency" class="qgcurrency" required>
                                         <option value="">Select...</option>
                                         <option value="usd">USD</option>
                                         <option value="dnotes token">DNotes</option>
@@ -59,39 +59,39 @@ class Addnew_token {
                                 </p>
                                 <p>
                                     <label>Price/Amount</label>
-                                    <input type="text" name="price" class="price"  value="<?php echo $myquery->price; ?>" />
+                                    <input type="text" name="price" class="price"  value="<?php echo $myquery->price; ?>" onchange="priceChange(this.value)" />
                                     <span class="span-desc">Purchase price in USD if you have selected USD, or amount in DNotes if you have selected DNotes</span>
                                 </p>
                                 <p>
                                     <label>Tolerance</label>
-                                    <input type="text" name="tolerance" class="tolerance"  value="<?php echo $myquery->tolerance; ?>" />
+                                    <input type="text" name="tolerance" class="tolerance"  value="<?php echo $myquery->tolerance; ?>" onchange="toleranceChange(this.value)"/>
                                     <span class="span-desc">If the user doesn't pay for the correct amount of DNotes, this is the tolerance for how much they can be off by, example 0.1</span>
                                 </p>
                                 <p>
                                     <label>Link to Download or Product</label>
-                                    <input type="text" name="product" class="product"  value="<?php echo $myquery->product; ?>">
+                                    <input type="text" name="product" class="product"  value="<?php echo $myquery->product; ?>" onchange="productChange(this.value)" >
                                     <span class="span-desc">This will be shown to the user once the user has paid, product download or URL to the product you would like to deliver. Example: 
                                         Link to an article, a download zip, or PDF file such as http://mydomain.com/pdf_file.pdf</span>
                                 </p>
                                 <p>
                                     <label>Confirmations</label>
-                                    <input type="text" name="confirmation" class="confirmation"  value="<?php echo $myquery->confirmation; ?>">
+                                    <input type="text" name="confirmation" class="confirmation"  value="<?php echo $myquery->confirmation; ?>" onchange="confirmationChange(this.value)" >
                                     <span class="span-desc">0=Fastest, payment has been sent but not confirmed to be valid, up to 1 minute. 6=Slow, up to 6 minutes, transaction fully validated on the network.</span>
                                 </p>
                                 <p>
                                     <label>Short Product Description</label>
-                                    <input type="text" name="description" class="description"  value="<?php echo $myquery->description; ?>">
+                                    <input type="text" name="description" class="description"  value="<?php echo $myquery->description; ?>" onchange="descriptionChange(this.value)">
                                     <span class="span-desc">Enter a short description of the product you are selling</span>
                                 </p>
                                 <p>
                                     <label>Button Text</label>
-                                    <input type="text" name="btn_text" class="btn_text"  value="<?php echo $myquery->b_text; ?>">
+                                    <input type="text" name="btn_text" class="btn_text"  value="<?php echo $myquery->b_text; ?>" onchange="btntextChange(this.value)">
                                     <span class="span-desc">Examples: Buy Now, Buy with DNotes, DNotes Pay</span>
                                 </p>
                                 <p>
                                     <label>Button Color</label>
-                                    <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="<?php echo $myquery->b_color; ?>" id="btn_hexcolor" name="btn_hexcolor" placeholder="#ffffff" onchange="buttoncolorSync(this.value , 1)">
-                                    <input type="color" name="btn_color" id="btn_color" class="btn_color"  value="<?php echo $myquery->b_color; ?>" onchange="buttoncolorSync(this.value , 2)">
+                                    <input type="text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="<?php echo $myquery->b_color; ?>" id="btn_color" name="btn_color" placeholder="#ffffff" onchange="buttoncolorSync(this.value , 1)">
+                                    <input type="color" name="btn_hexcolor" id="btn_hexcolor" class="btn_color"  value="<?php echo $myquery->b_color; ?>" onchange="buttoncolorSync(this.value , 2)">
                                 </p>
                                 <p>
                                     <label>Button Border Color</label>
@@ -181,12 +181,57 @@ class Addnew_token {
 
         <script>
             function buttoncolorSync( indexvalue , checkid) {
-                if( checkid == 1)   document.getElementById("btn_hexcolor").value = indexvalue;
-                if( checkid == 2)   document.getElementById("btn_color").value = indexvalue;
-                if( checkid == 3)   document.getElementById("btn_border_hexcolor").value = indexvalue;
-                if( checkid == 4)   document.getElementById("btn_border_color").value = indexvalue;
-                if( checkid == 5)   document.getElementById("btn_horver_hexcolor").value = indexvalue;
-                if( checkid == 6)   document.getElementById("btn_horver_color").value = indexvalue;
+                if( checkid == 1)   
+                {
+                    document.getElementById("btn_hexcolor").value = indexvalue;
+                    document.getElementById("btn_color").value = indexvalue;   
+                }
+                if( checkid == 2)
+                {
+                    document.getElementById("btn_color").value = indexvalue;
+                    document.getElementById("btn_hexcolor").value = indexvalue;
+                }
+                if( checkid == 3)
+                {
+                    document.getElementById("btn_border_hexcolor").value = indexvalue;
+                    document.getElementById("btn_border_color").value = indexvalue;
+                }
+                if( checkid == 4)
+                {
+                    document.getElementById("btn_border_hexcolor").value = indexvalue;
+                    document.getElementById("btn_border_color").value = indexvalue;
+                }
+                if( checkid == 5)
+                {
+                    document.getElementById("btn_horver_hexcolor").value = indexvalue;
+                    document.getElementById("btn_horver_color").value = indexvalue;
+                }
+                if( checkid == 6)
+                {
+                    document.getElementById("btn_horver_hexcolor").value = indexvalue;
+                    document.getElementById("btn_horver_color").value = indexvalue;
+                }
+            }
+            function currencyChange(val) {
+                $('.currency').attr('value', val);
+            }
+            function priceChange(val) {
+                $('.price').attr('value', val);
+            }
+            function toleranceChange(val) {
+                $('.tolerance').attr('value', val);
+            }
+            function productChange(val) {
+                $('.product').attr('value', val);
+            }
+            function confirmationChange(val) {
+                $('.confirmation').attr('value', val);
+            }
+            function descriptionChange(val) {
+                $('.description').attr('value', val);
+            }
+            function btntextChange(val) {
+                $('.btn_text').attr('value', val);
             }
         </script>
         
@@ -290,7 +335,7 @@ class Addnew_token {
                 'b_text' => $btn_text,
                 'b_color' => $btn_color,
                 'b_border_color' => $btn_border_color,
-                'b_hover_color' => $btn_horver_color,
+                'b_horver_color' => $btn_horver_color,
                     ), array('id' => $item_id)
             );
             $url = admin_url('admin.php?page=dnotes-token-new');
@@ -311,10 +356,10 @@ class Addnew_token {
             <h2>Your Shortcode:</h2>
 
         <?php if ($_GET['id']) { ?>
-                <input type="text" readonly=readonly value="[ dnotespay id='<?php echo $_GET['id']; ?>' ]">
+                <input type="text" readonly=readonly value='[ dnotespay id="<?php echo $_GET['id']; ?>" ]'>
                 <?php } else {
                 ?>
-                <input type="text" readonly=readonly value="[ dnotespay id='<?php echo $this_insert; ?>' ]">
+                <input type="text" readonly=readonly value='[ dnotespay id="<?php echo $this_insert; ?>" ]'>
             <?php } ?>
         </div>
             <?php
